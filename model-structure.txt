@@ -1,0 +1,170 @@
+{
+  "V": ["roll1_var","pitch1_var","accel1_module","roll2_var","pitch2_var","accel2_module","roll3_var","pitch3_var","accel3_module","roll4_var","pitch4_var","accel4_module","accel_mean","accel_std","sitting","sittingdown","walking","standing","standingup"],
+  "E": [["accel_mean","sitting"],
+        ["pitch4_var", "sitting"],
+        ["accel4_module","sitting"],
+        ["roll2_var","sittingdown"],
+        ["pitch2_var","sittingdown"],
+        ["accel_mean","sittingdown"],
+        ["roll1_var","walking"],
+        ["pitch1_var","walking"],
+        ["accel1_module","walking"],
+        ["roll2_var","walking"],
+        ["roll1_var","standing"],
+        ["pitch1_var","standing"],
+        ["accel1_module","standing"],
+        ["roll3_var","standing"],
+        ["roll2_var","standingup"],
+        ["pitch4_var","standingup"],
+        ["pitch2_var","standingup"]],
+  "Vdata": {
+      "roll1_var": {
+          "ord": 0,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["walking","standing"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "pitch1_var": {
+          "ord": 1,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["walking","standing"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "accel1_module": {
+          "ord": 2,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["walking","standing"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "roll2_var": {
+          "ord": 3,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["sittingdown","standingup"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "pitch2_var": {
+          "ord": 4,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["sittingdown","walking","standingup"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "accel2_module": {
+          "ord": 5,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": None,
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "roll3_var": {
+          "ord": 6,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["standing"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "pitch3_var": {
+          "ord": 7,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": None,
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "accel3_module": {
+          "ord": 8,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["sitting"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "roll4_var": {
+          "ord": 9,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": None,
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "pitch4_var": {
+          "ord": 10,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["sitting","standingup"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "accel4_module": {
+          "ord": 11,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["sitting"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "accel_mean": {
+          "ord": 12,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": ["sitting","sittingdown"],
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "accel_std": {
+          "ord": 13,
+          "numoutcomes": 10,
+          "vals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          "parents": None,
+          "children": None,
+          "cprob": [.1,.1,.1,.1,.1,.1,.1,.1,.1,.1]
+      },
+      "sitting": {
+          "ord": 14,
+          "numoutcomes": 2,
+          "vals": ["0", "1"],
+          "parents": ["accel_mean","pitch4_var","accel4_module"],
+          "children": None
+      },
+      "sittingdown": {
+          "ord": 14,
+          "numoutcomes": 2,
+          "vals": ["0", "1"],
+          "parents": ["roll2_var","pitch2_var","accel_mean"],
+          "children": None
+      },
+      "walking": {
+          "ord": 14,
+          "numoutcomes": 2,
+          "vals": ["0", "1"],
+          "parents": ["roll1_var","pitch1_var","accel1_module","pitch2_var"],
+          "children": None
+      },
+      "standing": {
+          "ord": 14,
+          "numoutcomes": 2,
+          "vals": ["0", "1"],
+          "parents": ["roll1_var","pitch1_var","accel1_module","roll3_var"],
+          "children": None
+      },
+      "standingup": {
+          "ord": 14,
+          "numoutcomes": 2,
+          "vals": ["0", "1"],
+          "parents": ["roll2_var","pitch4_var","pitch2_var"],
+          "children": None
+      }
+  }
+
+}
