@@ -147,7 +147,6 @@ cv.nb = bn.cv(e, data = data_fit, runs = 10, method = "k-fold", folds = 10)
 
 pp = graphviz.plot(e)
 
-bn.net(fit, debug = FALSE)
 
 structure <- hc(data_fit)#, whitelist=arc.set)#, score = "bic-cg")#, whitelist=arc.set )
 structure <- gs(data_fit)
@@ -158,3 +157,130 @@ fit = bn.fit(structure, data)
 
 plot.network(structure, ht = "600px")
 
+cpquery(fit, c("sitting","sittingdown","walking","standing","standingup"), c("roll1_var_disc","pitch1_var_disc","accel1_module_disc","roll2_var_disc","pitch2_var_disc","roll3_var_disc","pitch3_var_disc","pitch4_var_disc","accel_mean_disc"))
+
+
+
+
+
+
+
+
+#________________
+
+nodi <- c("roll1_var_disc","accel1_module_disc","accel2_module_disc","roll2_var_disc","roll3_var_disc","pitch3_var_disc","pitch4_var_disc","accel_mean_disc","accel_std_disc", "sitting","sittingdown","walking","standing","standingup")
+e = empty.graph(nodi)
+class(e)
+e
+
+arc.set = matrix(c("accel1_module_disc","sitting",
+                   "accel_mean_disc", "sitting",
+                   "accel_mean_disc", "walking",
+                   "roll1_var_disc","sittingdown",
+                   "roll2_var_disc","standing",
+                   "roll2_var_disc","sitting",
+                   "roll3_var_disc","standingup",
+                   "roll3_var_disc","sittingdown",
+                   "pitch4_var_disc","standingup",
+                   "accel_std_disc", "standing",
+                   "pitch3_var_disc","standingup",
+                   "pitch3_var_disc","walking",
+                   "accel2_module_disc","walking"),
+                 ncol = 2, byrow = TRUE,
+                 dimnames = list(NULL, c("from", "to")))
+
+
+
+arc.set
+
+arcs(e) = arc.set
+e
+
+
+
+
+#data <- read.csv(file="../measure_for_r.csv", header=TRUE, sep=";")
+data <- read.csv(file="../data/train_dataset.csv", header=TRUE, sep=";")
+test <- read.csv(file="../data/test_dataset.csv", header=TRUE, sep=";")
+
+for (col in nodi){
+        data[[col]] <- factor(data[[col]])
+        #test[[col]] <- factor(test[[col]])
+}
+
+data_fit <- data[nodi]
+
+fit = bn.fit(e, data_fit, method = "mle", debug = TRUE)
+fit = bn.fit(e, data_fit, method = "bayes", debug = TRUE)
+
+plot.network(e, ht = "600px")
+
+nodi_test <- c(nodi, "class")
+
+test_fit <- test[nodi_test]
+
+#evidence = c("roll1_var_disc","roll2_var_disc","roll3_var_disc","pitch3_var_disc","pitch4_var_disc","accel1_module_disc","accel2_module_disc","accel_mean_disc","accel_std_disc")
+
+class <- c("sitting", "sittingdown", "standing", "standingup", "walking")
+
+
+
+confusion_matrix = matrix( 0L, nrow = length(class), ncol = length(class))
+
+dimnames(confusion_matrix) = list( class, class)
+
+#cpquery(fit, (sitting == 0), TRUE)
+#cpquery(fit, event = quote(sitting=='0'), TRUE)
+
+#cpquery(fit, (sitting == 0), roll1_var_disc == 0 & accel1_module_disc == 4)
+
+for (i in 1:nrow(test_fit)) {
+        row <- test_fit[i,]
+        
+        real_class = row$class
+        
+        roll1 = row$roll1_var_disc
+        roll2 = row$roll2_var_disc
+        roll3 = row$roll3_var_disc
+        pitch3 = row$pitch3_var_disc
+        pitch4 = row$pitch4_var_disc
+        accel1 = row$accel1_module_disc
+        accel2 = row$accel2_module_disc
+        accel_mean = row$accel_mean_disc
+        accel_std = row$accel_std_disc
+        
+        
+        prob_sitting <- cpquery(fit, sitting == 1, roll1_var_disc == roll1 & roll2_var_disc == roll2 & roll3_var_disc == roll3 & 
+                        pitch3_var_disc == pitch3 & pitch4_var_disc == pitch4 & accel1_module_disc == accel1 &
+                        accel2_module_disc == accel2 & accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob_sittingdown <- cpquery(fit, sittingdown == 1, roll1_var_disc == roll1 & roll2_var_disc == roll2 & roll3_var_disc == roll3 & 
+                                        pitch3_var_disc == pitch3 & pitch4_var_disc == pitch4 & accel1_module_disc == accel1 &
+                                        accel2_module_disc == accel2 & accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob_standing <- cpquery(fit, standing == 1, roll1_var_disc == roll1 & roll2_var_disc == roll2 & roll3_var_disc == roll3 & 
+                                            pitch3_var_disc == pitch3 & pitch4_var_disc == pitch4 & accel1_module_disc == accel1 &
+                                            accel2_module_disc == accel2 & accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob_standingup <- cpquery(fit, standingup == 1, roll1_var_disc == roll1 & roll2_var_disc == roll2 & roll3_var_disc == roll3 & 
+                                            pitch3_var_disc == pitch3 & pitch4_var_disc == pitch4 & accel1_module_disc == accel1 &
+                                            accel2_module_disc == accel2 & accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob_walking <- cpquery(fit, walking == 1, roll1_var_disc == roll1 & roll2_var_disc == roll2 & roll3_var_disc == roll3 & 
+                                           pitch3_var_disc == pitch3 & pitch4_var_disc == pitch4 & accel1_module_disc == accel1 &
+                                           accel2_module_disc == accel2 & accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob <- c(prob_sitting, prob_sittingdown, prob_standing, prob_standingup, prob_walking)
+        
+        prob_max_index <- which.max(prob)
+        
+        prob_max_class <- class[prob_max_index]
+        
+        confusion_matrix[prob_max_class,real_class] <- confusion_matrix[prob_max_class, real_class] + 1
+}
+
+recall_sitting <- confusion_matrix['sitting', 'sitting']/(sum(confusion_matrix[,'sitting']))
+
+precision_sitting <- confusion_matrix['sitting', 'sitting']/(sum(confusion_matrix['sitting',]))
+
+f_score_sitting <- 2*recall_sitting * precision_sitting/(recall_sitting + precision_sitting)
