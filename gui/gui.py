@@ -5,6 +5,8 @@ from PyQt5.QtGui import QIcon, QPalette
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtGui import QIcon, QPixmap, QIntValidator
 
+import pandas as pd
+
 class App(QWidget):
 
     def __init__(self):
@@ -15,6 +17,8 @@ class App(QWidget):
         self.width = 540
         self.height = 740
         self.immagine_accellerometri = "schema_accellerometri.png"
+        self.df = pd.read_csv("../data/test_dataset.csv", sep = ';')
+
         self.initUI()
     
     def initUI(self):
@@ -41,9 +45,24 @@ class App(QWidget):
     def result(self):
         groupBox = QGroupBox("")
         
+        match_text = QLabel(self)
+        match_text.setText('Match:')
+        self.match = QLineEdit(self, placeholderText="")
+        self.match.setReadOnly(True)
         
-        #vbox.addStretch(1)
-        #groupBox.setLayout(vbox)
+        perc_match_text = QLabel(self)
+        perc_match_text.setText('Match Percentage:')
+        self.perc_match = QLineEdit(self, placeholderText="")
+        self.perc_match.setReadOnly(True)
+
+        vbox = QVBoxLayout()
+        vbox.addWidget(match_text)
+        vbox.addWidget(self.match)
+        vbox.addWidget(perc_match_text)
+        vbox.addWidget(self.perc_match)
+
+        vbox.addStretch(1)
+        groupBox.setLayout(vbox)
     
         return groupBox
 
@@ -90,23 +109,42 @@ class App(QWidget):
     @pyqtSlot()
     def on_click_run(self):
         print("run")
-        print(self.sitting.isChecked())
-        self.roll2.setText("10")
 
         # prendiamo il attività selezionata
         if self.sitting.isChecked():
             self.activity_select.setText("sitting")
         elif self.sittingdown.isChecked():
             self.activity_select.setText("sittingdown")
-        elif self.walking.isChecked():
-            self.activity_select.setText("walking")
         elif self.standing.isChecked():
             self.activity_select.setText("standing")
         elif self.standingup.isChecked():
             self.activity_select.setText("standingup")
+        elif self.walking.isChecked():
+            self.activity_select.setText("walking")
 
-        print(self.activity_select.text())
+        class_df = self.df.loc[self.df['class'] == self.activity_select.text()]
 
+        row_df = pd.DataFrame()
+        row_df = row_df.append(class_df.sample(n = 1))
+        
+        self.roll1.setText(str(row_df['roll1_disc'].iloc[0]))
+        self.pitch1.setText(str(row_df['pitch1_disc'].iloc[0]))
+        self.accel1.setText(str(row_df['accel1_disc'].iloc[0]))
+
+        self.roll2.setText(str(row_df['roll2_disc'].iloc[0]))
+        self.pitch2.setText(str(row_df['pitch2_disc'].iloc[0]))
+        self.accel2.setText(str(row_df['accel2_disc'].iloc[0]))
+
+        self.roll3.setText(str(row_df['roll3_disc'].iloc[0]))
+        self.pitch3.setText(str(row_df['pitch3_disc'].iloc[0]))
+        self.accel3.setText(str(row_df['accel3_disc'].iloc[0]))
+
+        self.roll4.setText(str(row_df['roll4_disc'].iloc[0]))
+        self.pitch4.setText(str(row_df['pitch4_disc'].iloc[0]))
+        self.accel4.setText(str(row_df['accel4_disc'].iloc[0]))
+
+
+        row_df.to_csv('query_row.csv', sep = ';', index = False)
 
     def create_image_sensor(self):
         groupBox = QGroupBox("Sensor disposition")
@@ -136,17 +174,17 @@ class App(QWidget):
 
         self.sitting = QRadioButton("Sitting")
         self.sittingdown = QRadioButton("Sittingdown")
-        self.walking = QRadioButton("Walking")
         self.standing = QRadioButton("Standing")
         self.standingup = QRadioButton("Standingup")
+        self.walking = QRadioButton("Walking")
 
         vbox = QVBoxLayout()
         vbox.addWidget(activity_text)
         vbox.addWidget(self.sitting)
         vbox.addWidget(self.sittingdown)
-        vbox.addWidget(self.walking)
         vbox.addWidget(self.standing)
         vbox.addWidget(self.standingup)
+        vbox.addWidget(self.walking)
 
         vbox.addStretch(1)
         groupBox.setLayout(vbox)
