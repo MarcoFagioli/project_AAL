@@ -36,4 +36,4 @@ accel_std = [np.std([df['accel1'].iloc[i], df['accel2'].iloc[i], \
                         df['accel3'].iloc[i], df['accel4'].iloc[i]]) for i in range(df.shape[0])]
 df['accel_std'] = pd.Series(accel_std)
 
-df.to_csv('continuos_dataset.csv', sep = ';', index=False)
+df.to_csv('continuous_dataset.csv', sep = ';', index=False)
