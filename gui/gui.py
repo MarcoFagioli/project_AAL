@@ -1,3 +1,4 @@
+import subprocess
 import sys
 from PyQt5.QtWidgets import (QApplication, QCheckBox, QGridLayout, QGroupBox,
         QMenu, QPushButton, QRadioButton, QVBoxLayout, QWidget, QLineEdit, QLabel)
@@ -18,6 +19,9 @@ class App(QWidget):
         self.height = 740
         self.immagine_accellerometri = "schema_accellerometri.png"
         self.df = pd.read_csv("../data/test_dataset.csv", sep = ';')
+        self.res = 0
+        self.total = 0
+        self.right = 0
 
         self.initUI()
     
@@ -38,7 +42,6 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-        
         #self.saveFileDialog()
         self.show()
 
@@ -83,19 +86,18 @@ class App(QWidget):
         self.activity_select = QLineEdit(self, placeholderText="")
         self.activity_select.setReadOnly(True)
 
-        activity_label_text = QLabel(self)
-        activity_label_text.setText('Activity label:')
-        self.activity_label = QLineEdit(self, placeholderText="")
-        self.activity_label.setReadOnly(True)    
+        activity_predict_text = QLabel(self)
+        activity_predict_text.setText('Activity predict:')
+        self.activity_predict = QLineEdit(self, placeholderText="")
+        self.activity_predict.setReadOnly(True)    
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.button_reset)
         vbox.addWidget(self.button_run)
         vbox.addWidget(activity_select_text)
         vbox.addWidget(self.activity_select)
-        vbox.addWidget(activity_label_text)
-        vbox.addWidget(self.activity_label)
-
+        vbox.addWidget(activity_predict_text)
+        vbox.addWidget(self.activity_predict)
 
         vbox.addStretch(1)
         groupBox.setLayout(vbox)
@@ -105,6 +107,27 @@ class App(QWidget):
     @pyqtSlot()
     def on_click_reset(self):
         print("reset")
+        self.right = 0
+        self.total = 0
+
+        self.roll1.setText('')
+        self.pitch1.setText('')
+        self.accel1.setText('')
+
+        self.roll2.setText('')
+        self.pitch2.setText('')
+        self.accel2.setText('')
+
+        self.roll3.setText('')
+        self.pitch3.setText('')
+        self.accel3.setText('')
+
+        self.roll4.setText('')
+        self.pitch4.setText('')
+        self.accel4.setText('')
+
+        self.activity_select.setText('')
+        self.activity_predict.setText('')
 
     @pyqtSlot()
     def on_click_run(self):
@@ -146,6 +169,19 @@ class App(QWidget):
 
         row_df.to_csv('query_row.csv', sep = ';', index = False)
 
+        subprocess.call('Rscript --vanilla ../Bayesian/script_for_gui.r  query_row.csv result.csv',  shell=True)
+        
+        result_pd = pd.read_csv("result.csv", sep = ';')
+        self.res = result_pd['query'].iloc[0]
+        self.activity_predict.setText(str(result_pd['prob_max_class'].iloc[0]))
+
+        self.total = self.total + 1
+        if (self.res == 1):
+            self.right = self.right + 1
+        
+        self.match.setText(str(self.right) + '/' + str(self.total))
+        self.perc_match.setText(str(self.right / self.total * 100))
+
     def create_image_sensor(self):
         groupBox = QGroupBox("Sensor disposition")
         
@@ -173,6 +209,7 @@ class App(QWidget):
         #"sitting","sittingdown","walking","standing","standingup"
 
         self.sitting = QRadioButton("Sitting")
+        self.sitting.setChecked(True)
         self.sittingdown = QRadioButton("Sittingdown")
         self.standing = QRadioButton("Standing")
         self.standingup = QRadioButton("Standingup")
