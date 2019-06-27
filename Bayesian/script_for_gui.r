@@ -1,7 +1,11 @@
 #!/usr/bin/env Rscript
 args = commandArgs(trailingOnly=TRUE)
 
-library(bnlearn)
+if(!require(bnlearn)){
+   install.packages("bnlearn")
+   library("bnlearn")
+}
+
 path <- args[1]
 path_query <- args[2]
 
