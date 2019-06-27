@@ -1,4 +1,5 @@
 import subprocess
+import random
 import sys
 from PyQt5.QtWidgets import (QApplication, QCheckBox, QGridLayout, QGroupBox,
         QMenu, QPushButton, QRadioButton, QVBoxLayout, QWidget, QLineEdit, QLabel)
@@ -16,7 +17,7 @@ class App(QWidget):
         self.left = 10
         self.top = 10
         self.width = 540
-        self.height = 740
+        self.height = 800
         self.immagine_accellerometri = "schema_accellerometri.png"
         self.df = pd.read_csv("../data/test_dataset.csv", sep = ';')
         self.res = 0
@@ -73,13 +74,13 @@ class App(QWidget):
     def add_button(self):
         groupBox = QGroupBox("")
 
-        self.button_reset = QPushButton('Reset', self)
-        self.button_reset.setToolTip('Reset')
-        self.button_reset.clicked.connect(self.on_click_reset)
-
         self.button_run = QPushButton('Run', self)
         self.button_run.setToolTip('Run')
         self.button_run.clicked.connect(self.on_click_run)
+
+        self.button_reset = QPushButton('Reset', self)
+        self.button_reset.setToolTip('Reset')
+        self.button_reset.clicked.connect(self.on_click_reset)
 
         activity_select_text = QLabel(self)
         activity_select_text.setText('Activity select:')
@@ -92,8 +93,8 @@ class App(QWidget):
         self.activity_predict.setReadOnly(True)    
 
         vbox = QVBoxLayout()
-        vbox.addWidget(self.button_reset)
         vbox.addWidget(self.button_run)
+        vbox.addWidget(self.button_reset)
         vbox.addWidget(activity_select_text)
         vbox.addWidget(self.activity_select)
         vbox.addWidget(activity_predict_text)
@@ -147,6 +148,8 @@ class App(QWidget):
             self.activity_select.setText("standingup")
         elif self.walking.isChecked():
             self.activity_select.setText("walking")
+        elif self.random.isChecked():
+            self.activity_select.setText(random.choice(["sitting", "sittingdown", "standing", "standingup", "walking"]))
 
         class_df = self.df.loc[self.df['class'] == self.activity_select.text()]
 
@@ -211,8 +214,9 @@ class App(QWidget):
         
         #"sitting","sittingdown","walking","standing","standingup"
 
+        self.random = QRadioButton("Random")
+        self.random.setChecked(True)
         self.sitting = QRadioButton("Sitting")
-        self.sitting.setChecked(True)
         self.sittingdown = QRadioButton("Sittingdown")
         self.standing = QRadioButton("Standing")
         self.standingup = QRadioButton("Standingup")
@@ -220,6 +224,7 @@ class App(QWidget):
 
         vbox = QVBoxLayout()
         vbox.addWidget(activity_text)
+        vbox.addWidget(self.random)
         vbox.addWidget(self.sitting)
         vbox.addWidget(self.sittingdown)
         vbox.addWidget(self.standing)
