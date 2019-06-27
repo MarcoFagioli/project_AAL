@@ -17,7 +17,7 @@ class App(QWidget):
         self.left = 10
         self.top = 10
         self.width = 540
-        self.height = 800
+        self.height = 400
         self.immagine_accellerometri = "schema_accellerometri.png"
         self.df = pd.read_csv("../data/test_dataset.csv", sep = ';')
         self.res = 0
@@ -28,15 +28,25 @@ class App(QWidget):
     
     def initUI(self):
         grid = QGridLayout()
-        grid.addWidget(self.createSensor_first(), 0, 0)
-        grid.addWidget(self.createSensor_second(), 1, 0)
-        grid.addWidget(self.createSensor_third(), 2, 0)
-        grid.addWidget(self.createSensor_fourth(), 3, 0)
+        #grid.addWidget(self.createSensor_first(), 0, 0)
+        #grid.addWidget(self.createSensor_second(), 1, 0)
+        #grid.addWidget(self.createSensor_third(), 2, 0)
+        #grid.addWidget(self.createSensor_fourth(), 3, 0)
+#
+        #grid.addWidget(self.create_image_sensor(), 0, 1)
+        #grid.addWidget(self.create_activity(), 1, 1)
+        #grid.addWidget(self.add_button(), 2, 1)
+        #grid.addWidget(self.result(), 3, 1)
 
-        grid.addWidget(self.create_image_sensor(), 0, 1)
+        grid.addWidget(self.createSensor_first(), 0, 0)
+        grid.addWidget(self.createSensor_second(), 0, 1)
+        grid.addWidget(self.createSensor_third(), 0, 2)
+        grid.addWidget(self.createSensor_fourth(), 0, 3)
+
+        grid.addWidget(self.create_image_sensor(), 1, 0)
         grid.addWidget(self.create_activity(), 1, 1)
-        grid.addWidget(self.add_button(), 2, 1)
-        grid.addWidget(self.result(), 3, 1)
+        grid.addWidget(self.add_button(), 1, 2)
+        grid.addWidget(self.result(), 1, 3)
 
         self.setLayout(grid)
 
@@ -193,7 +203,7 @@ class App(QWidget):
         
         immage_original = QLabel(self)
         pixmap = QPixmap(self.immagine_accellerometri)
-        pixmap_resized = pixmap.scaled(200, 500, Qt.KeepAspectRatio)
+        pixmap_resized = pixmap.scaled(200, 500, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         
         immage_original.setPixmap(pixmap_resized)
         #immage_original.setScaledContents(True)
