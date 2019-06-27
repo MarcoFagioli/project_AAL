@@ -139,4 +139,7 @@ results = matrix(c(recall_all, precision_all, f_score_all), nrow = 3, ncol = 5, 
 dimnames(results) = list( c('recall', 'precision', 'f-score'), class)
 results
 
+#salvo la rete
+saveRDS(fit, file = "fit.rds")
+
                  

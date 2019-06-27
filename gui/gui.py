@@ -129,6 +129,9 @@ class App(QWidget):
         self.activity_select.setText('')
         self.activity_predict.setText('')
 
+        self.match.setText('')
+        self.perc_match.setText('')
+
     @pyqtSlot()
     def on_click_run(self):
         print("run")
