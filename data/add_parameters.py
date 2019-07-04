@@ -26,10 +26,6 @@ for i in range(df.shape[0]):
     else:
         df.loc[i, 'walking'] = 1 
 
-for acceleration in ['accel1', 'accel2', 'accel3', 'accel4']:
-    df[f'{acceleration}_disc'] = pd.Series(pd.cut(df[acceleration], N_BINS, \
-                                              labels=list(range(N_BINS))))
-
 df['accel_mean'] = (df['accel1'] + df['accel2'] + \
                         df['accel3'] + df['accel4']) /4
 accel_std = [np.std([df['accel1'].iloc[i], df['accel2'].iloc[i], \
