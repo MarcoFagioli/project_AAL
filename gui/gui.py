@@ -206,6 +206,7 @@ class App(QWidget):
         pixmap_resized = pixmap.scaled(200, 500, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         
         immage_original.setPixmap(pixmap_resized)
+        immage_original.setAlignment(Qt.AlignCenter)
         #immage_original.setScaledContents(True)
         vbox = QVBoxLayout()
         vbox.addWidget(immage_original)
