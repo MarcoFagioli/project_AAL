@@ -117,7 +117,6 @@ class App(QWidget):
 
     @pyqtSlot()
     def on_click_reset(self):
-        print("reset")
         self.right = 0
         self.total = 0
 
@@ -145,7 +144,6 @@ class App(QWidget):
 
     @pyqtSlot()
     def on_click_run(self):
-        print("run")
 
         # prendiamo il attività selezionata
         if self.sitting.isChecked():
