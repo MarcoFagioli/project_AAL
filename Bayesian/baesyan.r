@@ -7,6 +7,30 @@ if(!require(visNetwork)){
         library("visNetwork")
 }
 
+plot.network.dif.color <- function(arc, nodi, nodi.pozzo, ht = "400px"){
+        nodes <- data.frame(id = nodi,
+                            label = nodi,
+                            color = "darkturquoise",
+                            shadow = TRUE)
+        
+        nodes_pozzo <- data.frame(id = nodi.pozzo,
+                                label = nodi.pozzo,
+                                color = "darkblue",
+                                shadow = TRUE)
+        
+        all_node <- rbind(nodes, nodes_pozzo)
+        edges <- data.frame(from = arc[,1],
+                            to = arc[,2],
+                            arrows = "to",
+                            smooth = TRUE,
+                            shadow = TRUE,
+                            color = "black")
+        
+        visSave(visNetwork(all_node, edges, height = ht, width = "100%"), file = "network.html")
+        
+        return(visNetwork(all_node, edges, height = ht, width = "100%"))
+}
+
 plot.network <- function(structure, ht = "400px"){
         nodes.uniq <- unique(c(structure$arcs[,1], structure$arcs[,2]))
         nodes <- data.frame(id = nodes.uniq,
@@ -61,6 +85,7 @@ train_fit <- train[nodi]
 fit = bn.fit(e, train_fit, method = "bayes", debug = TRUE)
 
 plot.network(e, ht = "600px")
+plot.network.dif.color(arc.set, nodi[1:(length(nodi)-5)], nodi[(length(nodi)-4) : length(nodi)] ,ht = "1000px")
 
 nodi_test <- c(nodi, "class")
 test_fit <- test[nodi_test]
