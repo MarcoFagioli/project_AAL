@@ -4,3 +4,8 @@ libpgm/*
 .Rproj*
 .vscode*
 .Rproj.user
+Bayesian/.RData
+Bayesian/.Rhistory
+gui/query_row.csv
+gui/result.csv
+data/.ipynb_checkpoints/dataset_split-checkpoint.ipynb

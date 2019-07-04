@@ -1,9 +1,11 @@
-install.packages("bnlearn")
-install.packages("visNetwork")
-
-library(bnlearn)
-library(visNetwork)
-library(lattice)
+if(!require(bnlearn)){
+        install.packages("bnlearn")
+        library("bnlearn")
+}
+if(!require(visNetwork)){
+        install.packages("visNetwork")
+        library("visNetwork")
+}
 
 plot.network <- function(structure, ht = "400px"){
         nodes.uniq <- unique(c(structure$arcs[,1], structure$arcs[,2]))
