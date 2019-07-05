@@ -12,7 +12,7 @@ path_query <- args[2]
 fit <- readRDS("../Bayesian/fit.rds")
 test <- read.csv(file=path, header=TRUE, sep=";")
 
-nodi <- c("roll1_disc","accel1_disc","accel2_disc","roll2_disc","roll3_disc","pitch3_disc","pitch4_disc","accel_mean_disc","accel_std_disc", "sitting","sittingdown","walking","standing","standingup")
+nodi <- c("accel1_disc","accel2_disc","accel3_disc", "accel4_disc", "roll2_disc","roll3_disc","pitch2_disc", "pitch3_disc","pitch4_disc","accel_mean_disc","accel_std_disc", "sitting","sittingdown","walking","standing","standingup")
 nodi_test <- c(nodi, "class")
 test_fit <- test[nodi_test]
 #print(test_fit)
