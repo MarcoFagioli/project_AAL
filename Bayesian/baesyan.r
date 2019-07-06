@@ -61,50 +61,50 @@ e = empty.graph(nodi)
 class(e)
 e
 
-# vecchi archi 
-#arc.set = matrix(c("accel1_disc","sitting",
-#                   "accel_mean_disc", "sitting",
-#                   "accel_mean_disc", "walking",
-#                   "roll1_disc","sittingdown",
-#                   "roll2_disc","standing",
-#                   "roll2_disc","sitting",
-#                   "roll3_disc","standingup",
-#                   "roll3_disc","sittingdown",
-#                   "pitch4_disc","standingup",
-#                   "accel_std_disc", "standing",
-#                   "pitch3_disc","standingup",
-#                   "pitch3_disc","walking",
-#                   "accel2_disc","walking"),
-#                 ncol = 2, byrow = TRUE,
-#                 dimnames = list(NULL, c("from", "to")))
-
-nodi <- c("accel1_disc","accel2_disc","accel3_disc", "accel4_disc", "roll2_disc","roll3_disc","pitch2_disc", "pitch3_disc","pitch4_disc","accel_mean_disc","accel_std_disc", "sitting","sittingdown","walking","standing","standingup")
-e = empty.graph(nodi)
-class(e)
-e
 arc.set = matrix(c("accel1_disc","sitting",
-                   "accel1_disc","sittingdown",
-                   "accel1_disc","standing",
-                   "accel2_disc", "sitting",
-                   "accel2_disc","walking",
-                   "accel3_disc","walking",
-                   "accel3_disc","standing",
-                   "accel4_disc","sitting",
-                   "accel4_disc","walking",
-                   "accel4_disc","standingup",
-                   "accel_mean_disc", "walking",
                    "accel_mean_disc", "sitting",
-                   "accel_std_disc", "standing",
-                   "accel_std_disc", "walking",
+                   "accel_mean_disc", "walking",
+                   "roll1_disc","sittingdown",
                    "roll2_disc","standing",
-                   "roll2_disc","standingup",
+                   "roll2_disc","sitting",
                    "roll3_disc","standingup",
-                   "pitch2_disc","sittingdown",
-                   "pitch3_disc","sittingdown",
+                   "roll3_disc","sittingdown",
+                   "pitch4_disc","standingup",
+                   "accel_std_disc", "standing",
+                   "pitch3_disc","standingup",
                    "pitch3_disc","walking",
-                   "pitch4_disc","standingup"),
+                   "accel2_disc","walking"),
                  ncol = 2, byrow = TRUE,
                  dimnames = list(NULL, c("from", "to")))
+
+# approccio pearson
+#nodi <- c("accel1_disc","accel2_disc","accel3_disc", "accel4_disc", "roll2_disc","roll3_disc","pitch2_disc", "pitch3_disc","pitch4_disc","accel_mean_disc","accel_std_disc", "sitting","sittingdown","walking","standing","standingup")
+#e = empty.graph(nodi)
+#class(e)
+#e
+#arc.set = matrix(c("accel1_disc","sitting",
+#                   "accel1_disc","sittingdown",
+#                   "accel1_disc","standing",
+#                   "accel2_disc", "sitting",
+#                   "accel2_disc","walking",
+#                   "accel3_disc","walking",
+#                   "accel3_disc","standing",
+#                   "accel4_disc","sitting",
+#                   "accel4_disc","walking",
+#                   "accel4_disc","standingup",
+#                   "accel_mean_disc", "walking",
+#                   "accel_mean_disc", "sitting",
+#                   "accel_std_disc", "standing",
+#                   "accel_std_disc", "walking",
+#                   "roll2_disc","standing",
+#                   "roll2_disc","standingup",
+#                   "roll3_disc","standingup",
+#                   "pitch2_disc","sittingdown",
+#                   "pitch3_disc","sittingdown",
+#                   "pitch3_disc","walking",
+#                   "pitch4_disc","standingup"),
+#                 ncol = 2, byrow = TRUE,
+#                 dimnames = list(NULL, c("from", "to")))
 
 arcs(e) = arc.set
 e
@@ -141,53 +141,52 @@ class <- c("sitting", "sittingdown", "standing", "standingup", "walking")
 confusion_matrix = matrix( 0L, nrow = length(class), ncol = length(class))
 dimnames(confusion_matrix) = list( class, class)
 
-# old rete
-#for (i in 1:nrow(test_fit)) {
-#        row <- test_fit[i,]
-#        
-#        real_class <- row$class
-#        
-#        roll1 <- row$roll1_disc
-#        roll2 <- row$roll2_disc
-#        roll3 <- row$roll3_disc
-#        pitch3 <- row$pitch3_disc
-#        pitch4 <- row$pitch4_disc
-#        accel1 <- row$accel1_disc
-#        accel2 <- row$accel2_disc
-#        accel_mean <- row$accel_mean_disc
-#        accel_std <- row$accel_std_disc
-#        
-#        
-#        prob_sitting <- cpquery(fit, sitting == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
-#                        pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
-#                        accel_mean_disc == accel_mean & accel_std_disc == accel_std)
-#        
-#        prob_sittingdown <- cpquery(fit, sittingdown == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
-#                                            pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
-#                                            accel_mean_disc == accel_mean & accel_std_disc == accel_std)
-#        
-#        prob_standing <- cpquery(fit, standing == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
-#                                         pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
-#                                         accel_mean_disc == accel_mean & accel_std_disc == accel_std)
-#        
-#        prob_standingup <- cpquery(fit, standingup == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
-#                                           pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
-#                                           accel_mean_disc == accel_mean & accel_std_disc == accel_std)
-#        
-#        prob_walking <- cpquery(fit, walking == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
-#                                        pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
-#                                        accel_mean_disc == accel_mean & accel_std_disc == accel_std)
-#        
-#        prob <- c(prob_sitting, prob_sittingdown, prob_standing, prob_standingup, prob_walking)
-#        
-#        prob_max_index <- which.max(prob)
-#        
-#        prob_max_class <- class[prob_max_index]
-#        
-#        confusion_matrix[prob_max_class,real_class] <- confusion_matrix[prob_max_class, real_class] + 1
-#}
+for (i in 1:nrow(test_fit)) {
+        row <- test_fit[i,]
+        
+        real_class <- row$class
+        
+        roll1 <- row$roll1_disc
+        roll2 <- row$roll2_disc
+        roll3 <- row$roll3_disc
+        pitch3 <- row$pitch3_disc
+        pitch4 <- row$pitch4_disc
+        accel1 <- row$accel1_disc
+        accel2 <- row$accel2_disc
+        accel_mean <- row$accel_mean_disc
+        accel_std <- row$accel_std_disc
+        
+        
+        prob_sitting <- cpquery(fit, sitting == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
+                        pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
+                        accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob_sittingdown <- cpquery(fit, sittingdown == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
+                                            pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
+                                            accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob_standing <- cpquery(fit, standing == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
+                                         pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
+                                         accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob_standingup <- cpquery(fit, standingup == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
+                                           pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
+                                           accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob_walking <- cpquery(fit, walking == 1, roll1_disc == roll1 & roll2_disc == roll2 & roll3_disc == roll3 & 
+                                        pitch3_disc == pitch3 & pitch4_disc == pitch4 & accel1_disc == accel1 & accel2_disc == accel2 &
+                                        accel_mean_disc == accel_mean & accel_std_disc == accel_std)
+        
+        prob <- c(prob_sitting, prob_sittingdown, prob_standing, prob_standingup, prob_walking)
+        
+        prob_max_index <- which.max(prob)
+        
+        prob_max_class <- class[prob_max_index]
+        
+        confusion_matrix[prob_max_class,real_class] <- confusion_matrix[prob_max_class, real_class] + 1
+}
 
-
+# rete pearson
 for (i in 1:nrow(test_fit)) {
         row <- test_fit[i,]
         
@@ -267,3 +266,6 @@ results
 #salvo la rete
 saveRDS(fit, file = "fit.rds")
 write.csv(confusion_matrix, file = "confusion_matrix.csv", row.names=FALSE)
+
+accuracy <- (confusion_matrix[1,1]+confusion_matrix[2,2]+confusion_matrix[3,3]+confusion_matrix[4,4]+confusion_matrix[5,5])/sum(confusion_matrix)
+accuracy
